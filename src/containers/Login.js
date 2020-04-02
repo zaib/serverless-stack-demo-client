@@ -1,16 +1,20 @@
 import React, { useState } from "react";
-import { Auth } from "aws-amplify";
+import Auth from "@aws-amplify/auth";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
+import { useAppContext } from "../libs/contextLib";
 import { useFormFields } from "../libs/hooksLib";
+import { onError } from "../libs/errorLib";
 import "./Login.css";
 
-export default function Login(props) {
+export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [fields, handleFieldChange] = useFormFields({
     email: "",
-    password: ""
+    password: "",
   });
+
+  const { userHasAuthenticated } = useAppContext();
 
   function validateForm() {
     return fields.email.length > 0 && fields.password.length > 0;
@@ -23,9 +27,9 @@ export default function Login(props) {
 
     try {
       await Auth.signIn(fields.email, fields.password);
-      props.userHasAuthenticated(true);
+      userHasAuthenticated(true);
     } catch (e) {
-      alert(e.message);
+      onError(e);
       setIsLoading(false);
     }
   }

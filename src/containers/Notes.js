@@ -1,20 +1,22 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { API, Storage } from "aws-amplify";
+import API from "@aws-amplify/api";
+import Storage from "@aws-amplify/storage";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
+import { onError } from "../libs/errorLib";
 import { s3Upload } from "../libs/awsLib";
 import config from "../config";
 import "./Notes.css";
 
 export default function Notes() {
   const file = useRef(null);
+  const { id } = useParams();
+  const history = useHistory();
   const [note, setNote] = useState(null);
   const [content, setContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const { id } = useParams();
-  const history = useHistory();
 
   useEffect(() => {
     function loadNote() {
@@ -33,7 +35,7 @@ export default function Notes() {
         setContent(content);
         setNote(note);
       } catch (e) {
-        alert(e);
+        onError(e);
       }
     }
 
@@ -54,7 +56,7 @@ export default function Notes() {
 
   function saveNote(note) {
     return API.put("notes", `/notes/${id}`, {
-      body: note
+      body: note,
     });
   }
 
@@ -65,8 +67,9 @@ export default function Notes() {
 
     if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
       alert(
-        `Please pick a file smaller than ${config.MAX_ATTACHMENT_SIZE /
-          1000000} MB.`
+        `Please pick a file smaller than ${
+          config.MAX_ATTACHMENT_SIZE / 1000000
+        } MB.`
       );
       return;
     }
@@ -80,11 +83,11 @@ export default function Notes() {
 
       await saveNote({
         content,
-        attachment: attachment || note.attachment
+        attachment: attachment || note.attachment,
       });
       history.push("/");
     } catch (e) {
-      alert(e);
+      onError(e);
       setIsLoading(false);
     }
   }
@@ -110,7 +113,7 @@ export default function Notes() {
       await deleteNote();
       history.push("/");
     } catch (e) {
-      alert(e);
+      onError(e);
       setIsDeleting(false);
     }
   }
@@ -123,7 +126,7 @@ export default function Notes() {
             <FormControl
               value={content}
               componentClass="textarea"
-              onChange={e => setContent(e.target.value)}
+              onChange={(e) => setContent(e.target.value)}
             />
           </FormGroup>
           {note.attachment && (

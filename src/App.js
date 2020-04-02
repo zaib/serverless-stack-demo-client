@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Auth } from "aws-amplify";
+import Auth from "@aws-amplify/auth";
 import { Link, useHistory } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import ErrorBoundary from "./components/ErrorBoundary";
 import Routes from "./Routes";
+import { AppContext } from "./libs/contextLib";
+import { onError } from "./libs/errorLib";
 import "./App.css";
 
 function App() {
@@ -19,10 +22,9 @@ function App() {
     try {
       await Auth.currentSession();
       userHasAuthenticated(true);
-    }
-    catch(e) {
-      if (e !== 'No current user') {
-        alert(e);
+    } catch (e) {
+      if (e !== "No current user") {
+        onError(e);
       }
     }
 
@@ -69,7 +71,13 @@ function App() {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <Routes appProps={{ isAuthenticated, userHasAuthenticated }} />
+        <ErrorBoundary>
+          <AppContext.Provider
+            value={{ isAuthenticated, userHasAuthenticated }}
+          >
+            <Routes />
+          </AppContext.Provider>
+        </ErrorBoundary>
       </div>
     )
   );

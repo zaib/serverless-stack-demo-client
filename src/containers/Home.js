@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { API } from "aws-amplify";
+import API from "@aws-amplify/api";
 import { LinkContainer } from "react-router-bootstrap";
 import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
+import { useAppContext } from "../libs/contextLib";
+import { onError } from "../libs/errorLib";
 import "./Home.css";
 
-export default function Home(props) {
+export default function Home() {
   const [notes, setNotes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const { isAuthenticated } = useAppContext();
+
   useEffect(() => {
     async function onLoad() {
-      if (!props.isAuthenticated) {
+      if (!isAuthenticated) {
         return;
       }
 
@@ -18,14 +22,14 @@ export default function Home(props) {
         const notes = await loadNotes();
         setNotes(notes);
       } catch (e) {
-        alert(e);
+        onError(e);
       }
 
       setIsLoading(false);
     }
 
     onLoad();
-  }, [props.isAuthenticated]);
+  }, [isAuthenticated]);
 
   function loadNotes() {
     return API.get("notes", "/notes");
@@ -64,16 +68,14 @@ export default function Home(props) {
     return (
       <div className="notes">
         <PageHeader>Your Notes</PageHeader>
-        <ListGroup>
-          {!isLoading && renderNotesList(notes)}
-        </ListGroup>
+        <ListGroup>{!isLoading && renderNotesList(notes)}</ListGroup>
       </div>
     );
   }
 
   return (
     <div className="Home">
-      {props.isAuthenticated ? renderNotes() : renderLander()}
+      {isAuthenticated ? renderNotes() : renderLander()}
     </div>
   );
 }

@@ -11,25 +11,25 @@ import NewNote from "./containers/NewNote";
 import Settings from "./containers/Settings";
 import NotFound from "./containers/NotFound";
 
-export default function Routes({ appProps }) {
+export default function Routes() {
   return (
     <Switch>
       <Route path="/" exact>
-        <Home {...appProps} />
+        <Home />
       </Route>
-      <UnauthenticatedRoute path="/login" exact appProps={appProps} >
-        <Login {...appProps} />
+      <UnauthenticatedRoute path="/login" exact>
+        <Login />
       </UnauthenticatedRoute>
-      <UnauthenticatedRoute path="/signup" exact appProps={appProps} >
-        <Signup {...appProps} />
+      <UnauthenticatedRoute path="/signup" exact>
+        <Signup />
       </UnauthenticatedRoute>
-      <AuthenticatedRoute path="/settings" exact appProps={appProps} >
+      <AuthenticatedRoute path="/settings" exact>
         <Settings />
       </AuthenticatedRoute>
-      <AuthenticatedRoute path="/notes/new" exact appProps={appProps}>
+      <AuthenticatedRoute path="/notes/new" exact>
         <NewNote />
       </AuthenticatedRoute>
-      <AuthenticatedRoute path="/notes/:id" exact appProps={appProps}>
+      <AuthenticatedRoute path="/notes/:id" exact>
         <Notes />
       </AuthenticatedRoute>
       {/* Finally, catch all unmatched routes */}
