@@ -22,9 +22,8 @@ export default function Signup() {
   });
   const history = useHistory();
   const [newUser, setNewUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-
   const { userHasAuthenticated } = useAppContext();
+  const [isLoading, setIsLoading] = useState(false);
 
   function validateForm() {
     return (

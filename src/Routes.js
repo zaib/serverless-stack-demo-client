@@ -14,26 +14,28 @@ import NotFound from "./containers/NotFound";
 export default function Routes() {
   return (
     <Switch>
-      <Route path="/" exact>
+      <Route exact path="/">
         <Home />
       </Route>
-      <UnauthenticatedRoute path="/login" exact>
+      <UnauthenticatedRoute exact path="/login">
         <Login />
       </UnauthenticatedRoute>
-      <UnauthenticatedRoute path="/signup" exact>
+      <UnauthenticatedRoute exact path="/signup">
         <Signup />
       </UnauthenticatedRoute>
-      <AuthenticatedRoute path="/settings" exact>
+      <AuthenticatedRoute exact path="/settings">
         <Settings />
       </AuthenticatedRoute>
-      <AuthenticatedRoute path="/notes/new" exact>
+      <AuthenticatedRoute exact path="/notes/new">
         <NewNote />
       </AuthenticatedRoute>
-      <AuthenticatedRoute path="/notes/:id" exact>
+      <AuthenticatedRoute exact path="/notes/:id">
         <Notes />
       </AuthenticatedRoute>
       {/* Finally, catch all unmatched routes */}
-      <Route component={NotFound} />
+      <Route>
+        <NotFound />
+      </Route>
     </Switch>
   );
 }

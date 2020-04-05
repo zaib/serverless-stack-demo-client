@@ -8,13 +8,12 @@ import { onError } from "../libs/errorLib";
 import "./Login.css";
 
 export default function Login() {
+  const { userHasAuthenticated } = useAppContext();
   const [isLoading, setIsLoading] = useState(false);
   const [fields, handleFieldChange] = useFormFields({
     email: "",
     password: "",
   });
-
-  const { userHasAuthenticated } = useAppContext();
 
   function validateForm() {
     return fields.email.length > 0 && fields.password.length > 0;

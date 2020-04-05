@@ -1,4 +1,4 @@
-h1.ErrorBoundary {
-  padding-top: 150px;
+.ErrorBoundary {
+  padding-top: 100px;
   text-align: center;
 }

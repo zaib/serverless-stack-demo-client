@@ -83,7 +83,7 @@ export default function Notes() {
 
       await saveNote({
         content,
-        attachment: attachment || note.attachment,
+        attachment: attachment || note.attachment
       });
       history.push("/");
     } catch (e) {

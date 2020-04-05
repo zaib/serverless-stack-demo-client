@@ -1,7 +1,6 @@
 import * as Sentry from "@sentry/browser";
 
 const isLocal = process.env.NODE_ENV === "development";
-//const isLocal = false;
 
 export function initSentry() {
   if (isLocal) {
@@ -14,13 +13,8 @@ export function initSentry() {
 }
 
 export function onError(error) {
-  let message = error.toString();
-
-  //  if (!(error instanceof Error) && error.message) {
-  //    message = error.message;
-  //  }
-
   let errorInfo = {};
+  let message = error.toString();
 
   // Auth errors
   if (!(error instanceof Error) && error.message) {
@@ -28,8 +22,8 @@ export function onError(error) {
     message = error.message;
     error = new Error(message);
     // API errors
-  } else if (error.config && error.config.path) {
-    errorInfo.path = error.config.path;
+  } else if (error.config && error.config.url) {
+    errorInfo.url = error.config.url;
   }
 
   logError(error, errorInfo);

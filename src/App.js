@@ -10,9 +10,9 @@ import { onError } from "./libs/errorLib";
 import "./App.css";
 
 function App() {
+  const history = useHistory();
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [isAuthenticated, userHasAuthenticated] = useState(false);
-  const history = useHistory();
 
   useEffect(() => {
     onLoad();

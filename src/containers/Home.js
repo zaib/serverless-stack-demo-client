@@ -8,9 +8,8 @@ import "./Home.css";
 
 export default function Home() {
   const [notes, setNotes] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
   const { isAuthenticated } = useAppContext();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function onLoad() {
