@@ -31,7 +31,7 @@ export default function Home() {
   }, [isAuthenticated]);
 
   function loadNotes() {
-    return API.get("notes", "/invalid_path");
+    return API.put("notes", "/notes");
   }
 
   function renderNotesList(notes) {
