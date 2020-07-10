@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { API, Storage } from "aws-amplify";
 import { useParams, useHistory } from "react-router-dom";
-import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import { onError } from "../libs/errorLib";
 import { s3Upload } from "../libs/awsLib";
@@ -67,7 +67,7 @@ export default function Notes() {
     if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
       alert(
         `Please pick a file smaller than ${
-          config.MAX_ATTACHMENT_SIZE / 1000000
+        config.MAX_ATTACHMENT_SIZE / 1000000
         } MB.`
       );
       return;
@@ -124,13 +124,13 @@ export default function Notes() {
           <FormGroup controlId="content">
             <FormControl
               value={content}
-              componentClass="textarea"
+              as="textarea"
               onChange={e => setContent(e.target.value)}
             />
           </FormGroup>
           {note.attachment && (
             <FormGroup>
-              <ControlLabel>Attachment</ControlLabel>
+              <FormLabel>Attachment</FormLabel>
               <FormControl.Static>
                 <a
                   target="_blank"
@@ -143,14 +143,14 @@ export default function Notes() {
             </FormGroup>
           )}
           <FormGroup controlId="file">
-            {!note.attachment && <ControlLabel>Attachment</ControlLabel>}
+            {!note.attachment && <FormLabel>Attachment</FormLabel>}
             <FormControl onChange={handleFileChange} type="file" />
           </FormGroup>
           <LoaderButton
             block
             type="submit"
             bsSize="large"
-            bsStyle="primary"
+            variant="primary"
             isLoading={isLoading}
             disabled={!validateForm()}
           >
@@ -159,7 +159,7 @@ export default function Notes() {
           <LoaderButton
             block
             bsSize="large"
-            bsStyle="danger"
+            variant="danger"
             onClick={handleDelete}
             isLoading={isDeleting}
           >

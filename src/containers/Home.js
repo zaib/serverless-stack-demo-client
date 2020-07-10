@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { API } from "aws-amplify";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
+import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { useAppContext } from "../libs/contextLib";
 import { onError } from "../libs/errorLib";
 import "./Home.css";
@@ -45,14 +45,14 @@ export default function Home() {
           </ListGroupItem>
         </LinkContainer>
       ) : (
-        <LinkContainer key="new" to="/notes/new">
-          <ListGroupItem>
-            <h4>
-              <b>{"\uFF0B"}</b> Create a new note
+          <LinkContainer key="new" to="/notes/new">
+            <ListGroupItem>
+              <h4>
+                <b>{"\uFF0B"}</b> Create a new note
             </h4>
-          </ListGroupItem>
-        </LinkContainer>
-      )
+            </ListGroupItem>
+          </LinkContainer>
+        )
     );
   }
 
@@ -76,7 +76,7 @@ export default function Home() {
   function renderNotes() {
     return (
       <div className="notes">
-        <PageHeader>Your Notes</PageHeader>
+        {/* <PageHeader>Your Notes</PageHeader> */}
         <ListGroup>
           {!isLoading && renderNotesList(notes)}
         </ListGroup>
